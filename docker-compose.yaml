@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    environment:
+      - DEBUG=True
+      - ADDRESS=localhost:4173
+    ports: 
+      - "8100:8100"
+    volumes:
+      - ".:/sentiment-analysis-backend"
