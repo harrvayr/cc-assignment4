@@ -11,6 +11,10 @@ cors = CORS(app, resources={r"/*": {f"origins": {os.environ.get("ADDRESS")}}})
 
 sa_model = pickle.load(open("sentiment_analysis_model.sav", "rb"))
 
+@app.route("/")
+def hello():
+    return "<h1>Hello world!</h1>"
+
 @app.route("/analyze", methods=["POST"])
 def analyze():
     data = request.json
