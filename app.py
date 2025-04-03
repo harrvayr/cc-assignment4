@@ -4,6 +4,8 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import pickle
 
+from token_auth import check_token
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -11,11 +13,13 @@ cors = CORS(app, resources={r"/*": {f"origins": {os.environ.get("ADDRESS")}}})
 
 sa_model = pickle.load(open("sentiment_analysis_model.sav", "rb"))
 
-@app.route("/")
+@app.route("/", endpoint="root")
+@check_token
 def hello():
     return "<h1>Hello world!</h1>"
 
-@app.route("/analyze", methods=["POST"])
+@app.route("/analyze", methods=["POST"], endpoint="sentiment_analysis")
+@check_token
 def analyze():
     data = request.json
     prediction = sa_model.predict([data["text"]]) 
